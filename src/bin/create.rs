@@ -75,7 +75,7 @@ fn main() {
     let dday = format!("{:02}", day);
 
     let input_path = format!("src/inputs/input{}.txt", dday);
-    let example_path = format!("src/examples/testinput{}.txt", dday);
+    let example_path = format!("src/examples/example{}.txt", dday);
     let module_path = format!("src/bin/day{}.rs", dday);
 
     startup(day);

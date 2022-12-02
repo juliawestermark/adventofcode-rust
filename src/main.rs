@@ -14,6 +14,7 @@ fn startup(day: i32) {
 fn ending() {
     println!();
     println!("{}--- 🎄🎄🎄🎄🎄🎄 ---{}", ANSI_BOLD, ANSI_RESET);
+    println!();
 }
 
 struct Config {
@@ -56,7 +57,7 @@ fn parse_config(args: &[String]) -> Config {
                 input_filename = format!("src/inputs/input{:02}.txt", day).to_string();
             },
             "test" => {
-                input_filename = format!("src/examples/testinput{:02}.txt", day).to_string();
+                input_filename = format!("src/examples/example{:02}.txt", day).to_string();
             },
             _ => {
                 input_filename = format!("src/inputs/input{:02}.txt", day).to_string();
