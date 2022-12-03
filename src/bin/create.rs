@@ -5,11 +5,10 @@ use std::{
 };
 
 use aoc2022::{
-    // ANSI_ITALIC,
     ANSI_BOLD,
     ANSI_RESET,
-    COLOR_RED,
-    COLOR_GREEN,
+    print_success,
+    print_fail,
 };
 
 fn startup(day: i32) {
@@ -72,14 +71,6 @@ fn main() {
 
 fn safe_create_file(path: &str) -> Result<File, std::io::Error> {
     OpenOptions::new().write(true).create_new(true).open(path)
-}
-
-fn print_success(message: String) {
-    println!("{}{}{}", COLOR_GREEN, message, ANSI_RESET);
-}
-
-fn print_fail(message: String) {
-    println!("{}{}{}", COLOR_RED, message, ANSI_RESET);
 }
 
 fn main() {

@@ -1,5 +1,9 @@
-use std::env;
-use std::process::Command;
+use std::{
+    env,
+    fs::File,
+    process::Command,
+
+};
 
 use chrono::{
     NaiveDate,
@@ -9,11 +13,11 @@ use chrono::{
 };
 
 use aoc2022::{
-    // ANSI_ITALIC,
+    ANSI_ITALIC,
     ANSI_BOLD,
     ANSI_RESET,
-    // COLOR_RED,
     COLOR_GREEN,
+    print_fail,
 };
 
 fn startup(day: i32) {
@@ -63,14 +67,6 @@ struct Config {
     input_filename: String,
 }
 
-// fn help() {
-//     println!("usage:
-// match_args <string>
-//     Check whether given string is the answer.
-// match_args {{increase|decrease}} <integer>
-//     Increase or decrease given integer by one.");
-// }
-
 fn parse_config(args: &[String]) -> Config {
 
     let input_filename;
@@ -110,29 +106,53 @@ fn parse_config(args: &[String]) -> Config {
 
 }
 
+fn file_exists(filename: String) -> bool {
+    match File::open(&filename) {
+        Ok(_) => {
+            true
+        },
+        Err(_) => {
+            let message = format!("File does not exist \"{}\"", &filename);
+            print_fail(message);
+            false
+        }
+    }
+}
+
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-
     let config = parse_config(&args);
     let input_filename = config.input_filename;
     let day = config.day;
-    let dday = format!("{:02}", day);
+    let dday = format!("day{:02}", &day);
+    let path_bin = "src/bin";
 
-    let cmd = Command::new("cargo")
-        .args(["run", "--bin", &format!("day{}", dday), &input_filename])
-        .output()
-        .unwrap();
-    
-    let output = String::from_utf8(cmd.stdout).unwrap();
-    let vec: Vec<&str> = output.trim().split("\n").collect();
-    
-    // PRINTS
     startup(day);
-    println!("Run for input {}", input_filename);
-    println!();
-    for part in vec {
-        println!("{}", part);
+
+    if file_exists(format!("{}/{}.rs",path_bin, dday)) {
+        if file_exists(input_filename.clone()) {
+            let cmd = Command::new("cargo")
+                .args(["run", "--bin", &dday, &input_filename])
+                .output()
+                .unwrap();
+            
+            let output = String::from_utf8(cmd.stdout).unwrap();
+            let vec: Vec<&str> = output.trim().split("\n").collect();
+
+            println!("{}Run for input {}{}", ANSI_ITALIC, input_filename, ANSI_RESET);
+            println!();
+
+            if vec.len() == 0 || vec[0].is_empty() {
+                println!("No solutions");
+            }
+            else {
+                for part in vec {
+                    println!("{}", part);
+                }
+            }
+        }
     }
+
     ending();
 }

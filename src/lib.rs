@@ -38,3 +38,11 @@ pub fn parse_args() -> String {
     };
     filename
 }
+
+pub fn print_success(message: String) {
+    println!("{}{}{}", COLOR_GREEN, message, ANSI_RESET);
+}
+
+pub fn print_fail(message: String) {
+    println!("{}{}{}", COLOR_RED, message, ANSI_RESET);
+}
