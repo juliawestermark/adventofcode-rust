@@ -19,6 +19,8 @@ pub const ANSI_BOLD: &str = "\x1b[1m";
 pub const ANSI_RESET: &str = "\x1b[0m";
 pub const COLOR_RED: &str = "\x1b[0;31m";
 pub const COLOR_GREEN: &str = "\x1b[0;32m";
+pub const COLOR_GOLD: &str = "\x1b[0;33m";
+pub const COLOR_LIGHT_GRAY: &str = "\x1b[0;90m";
 
 
 pub fn lines_from_file(filename: impl AsRef<Path>) -> Vec<String> {
@@ -100,4 +102,18 @@ pub fn print_ending() {
     }
     println!("{}--- 🎄🎄🎄🎄🎄🎄 ---{}", ANSI_BOLD, ANSI_RESET);
     println!();
+}
+
+pub fn get_days_in_december() -> i32 {
+    let from_ymd_opt = NaiveDate::from_ymd_opt;
+    let today = today();
+    let december_first = from_ymd_opt(2022, 11, 30).unwrap(); // for 2022
+    
+    let date_diff = (today - december_first).num_days() as i32;
+    let mut end_date = 25;
+    if date_diff < 25 && date_diff > 0 {
+        end_date = date_diff;
+    }
+    
+    end_date
 }

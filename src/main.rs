@@ -2,11 +2,6 @@ use std::{
     env,
     fs::File,
     process::Command,
-
-};
-
-use chrono::{
-    NaiveDate,
 };
 
 use aoc2022::{
@@ -15,7 +10,7 @@ use aoc2022::{
     print_fail,
     print_startup,
     print_ending,
-    today,
+    get_days_in_december,
 };
 
 
@@ -97,15 +92,7 @@ fn main() {
     
     let mut days: Vec<i32>;
     if day_arg == 0 {
-        let from_ymd_opt = NaiveDate::from_ymd_opt;
-        let today = today();
-        let december_first = from_ymd_opt(2022, 11, 30).unwrap(); // for 2022
-    
-        let date_diff = (today - december_first).num_days() as i32;
-        let mut end_date = 25;
-        if date_diff < 25 && date_diff > 0 {
-            end_date = date_diff;
-        }
+        let end_date = get_days_in_december();
 
         days = (1..end_date+1).collect();
     }

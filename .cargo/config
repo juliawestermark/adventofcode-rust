@@ -1,3 +1,5 @@
 [alias]
 
 create = "run --bin create"
+result = "run --bin results"
+results = "run --bin results"
