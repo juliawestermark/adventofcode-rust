@@ -5,62 +5,14 @@ use std::{
 
 };
 
-use chrono::{
-    NaiveDate,
-    Utc,
-    Months,
-    Datelike,
-};
-
 use aoc2022::{
     ANSI_ITALIC,
-    ANSI_BOLD,
     ANSI_RESET,
-    COLOR_GREEN,
     print_fail,
+    print_startup,
+    print_ending,
 };
 
-fn startup(day: i32) {
-    println!();
-    println!("{}--- 🎄 Day {:02} 🎄 ---{}", ANSI_BOLD, day, ANSI_RESET);
-    println!();
-}
-
-fn ending() {
-    let from_ymd_opt = NaiveDate::from_ymd_opt;
-    let now = Utc::now();
-    let today = from_ymd_opt(now.year(), now.month(), now.day()).unwrap();
-    let christmas_date = from_ymd_opt(now.year(), 12, 24).unwrap(); 
-    // let today = from_ymd_opt(2022, 12, 02).unwrap();
-
-    let diff = date_diff(today, christmas_date);
-
-    println!();
-    println!("{}--- 🎄🎄🎄🎄🎄🎄 ---{}", ANSI_BOLD, ANSI_RESET);
-    if diff == 0 {
-        println!("{}   IT'S CHRISTMAS   {}", COLOR_GREEN, ANSI_RESET);
-    }
-    else if diff == 1 {
-        println!("{}{} day to Christmas!!{}", COLOR_GREEN, diff, ANSI_RESET);
-    }
-    else if diff < 10 {
-        println!("{}{} days to Christmas!{}", COLOR_GREEN, diff, ANSI_RESET);
-    }
-    else {
-        println!("{}{} days to Christmas{}", COLOR_GREEN, diff, ANSI_RESET);
-    }
-    println!("{}--- 🎄🎄🎄🎄🎄🎄 ---{}", ANSI_BOLD, ANSI_RESET);
-    println!();
-}
-
-fn date_diff(start_date: NaiveDate, end_date: NaiveDate) -> i64{
-    let d = (end_date - start_date).num_days();
-    if d < 0 {
-        let new_date = end_date + Months::new(12);
-        return date_diff(start_date, new_date)
-    }
-    return d
-}
 
 struct Config {
     day: i32,
@@ -128,7 +80,7 @@ fn main() {
     let dday = format!("day{:02}", &day);
     let path_bin = "src/bin";
 
-    startup(day);
+    print_startup(day);
 
     if file_exists(format!("{}/{}.rs",path_bin, dday)) {
         if file_exists(input_filename.clone()) {
@@ -154,5 +106,5 @@ fn main() {
         }
     }
 
-    ending();
+    print_ending();
 }

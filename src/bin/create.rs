@@ -5,23 +5,11 @@ use std::{
 };
 
 use aoc2022::{
-    ANSI_BOLD,
-    ANSI_RESET,
     print_success,
     print_fail,
+    print_startup,
+    print_ending,
 };
-
-fn startup(day: i32) {
-    println!();
-    println!("{}--- 🎄 Day {:02} 🎄 ---{}", ANSI_BOLD, day, ANSI_RESET);
-    println!();
-}
-
-fn ending() {
-    println!();
-    println!("{}--- 🎄🎄🎄🎄🎄🎄 ---{}", ANSI_BOLD, ANSI_RESET);
-    println!();
-}
 
 fn parse_args() -> i32 {
     let args: Vec<String> = env::args().collect();
@@ -81,7 +69,7 @@ fn main() {
     let example_path = format!("src/examples/example{}.txt", dday);
     let module_path = format!("src/bin/day{}.rs", dday);
 
-    startup(day);
+    print_startup(day);
 
     let file: Result<File, io::Error> = match safe_create_file(&module_path) {
         Ok(file) => Ok(file),
@@ -131,7 +119,7 @@ fn main() {
         }
     }
 
-    ending();
+    print_ending();
 }
 
 
