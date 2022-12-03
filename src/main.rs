@@ -12,7 +12,7 @@ use aoc2022::{
     // ANSI_ITALIC,
     ANSI_BOLD,
     ANSI_RESET,
-    COLOR_RED,
+    // COLOR_RED,
     COLOR_GREEN,
 };
 
@@ -34,16 +34,16 @@ fn ending() {
     println!();
     println!("{}--- 🎄🎄🎄🎄🎄🎄 ---{}", ANSI_BOLD, ANSI_RESET);
     if diff == 0 {
-        println!("{}   IT'S CHRISTMAS   {}", COLOR_RED, ANSI_RESET);
+        println!("{}   IT'S CHRISTMAS   {}", COLOR_GREEN, ANSI_RESET);
     }
     else if diff == 1 {
-        println!("{}{} day to Christmas!!{}", COLOR_RED, diff, ANSI_RESET);
+        println!("{}{} day to Christmas!!{}", COLOR_GREEN, diff, ANSI_RESET);
     }
     else if diff < 10 {
-        println!("{}{} days to Christmas!{}", COLOR_RED, diff, ANSI_RESET);
+        println!("{}{} days to Christmas!{}", COLOR_GREEN, diff, ANSI_RESET);
     }
     else {
-        println!("{}{} days to Christmas{}", COLOR_RED, diff, ANSI_RESET);
+        println!("{}{} days to Christmas{}", COLOR_GREEN, diff, ANSI_RESET);
     }
     println!("{}--- 🎄🎄🎄🎄🎄🎄 ---{}", ANSI_BOLD, ANSI_RESET);
     println!();
