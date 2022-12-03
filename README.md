@@ -1,5 +1,8 @@
 # Advent of code in Rust 2022
 
+## Edit code
+Your solution code should be saved in folder `src/bin/` with name `day<day>.rs`, e.g. `day01.rs` for the first day of december.
+
 ## Run script
 Run
 ```
