@@ -17,37 +17,46 @@ fn color_star(done: bool) -> String {
 fn print_stars(day: i32, stars: i32) {
     let star1 = color_star(stars > 0);
     let star2 = color_star(stars > 1);
-    let message = format!("     Day {:02})  {}{}", day, star1, star2);
+    let message = format!("     Day {:02}) {}{}", day, star1, star2);
     println!("{}", message );
 }
 
 
 fn main() {
     println!();
-    println!("{}--- 🎄 RESULTS 🎄 ---{}", ANSI_BOLD, ANSI_RESET);
+    println!("{}--- 🎄 RESULT 🎄 ---{}", ANSI_BOLD, ANSI_RESET);
     println!();
     
     let filename = "results.txt";
     let input = lines_from_file(filename);
     let mut nbr_of_stars = 0;
+    let days_in_december = get_days_in_december();
     
-    for line in input {
-        let vec: Vec<i32> =
-            line.split(" ").map(|s| s.parse().unwrap()).collect();
-        let day = vec[0];
-        if day > get_days_in_december() {
-            break
+    if days_in_december > 0 {
+        for line in input {
+            let vec: Vec<i32> =
+                line.split(" ").map(|s| s.parse().unwrap()).collect();
+            let day = vec[0];
+            if day > days_in_december {
+                break
+            }
+            nbr_of_stars += vec[1];
+            print_stars(day, vec[1]);
+            println!();
         }
-        nbr_of_stars += vec[1];
-        print_stars(day, vec[1]);
+        
         println!();
+        if nbr_of_stars == 0 {
+            println!("🎄 You can do it! 🎄");
+        }
+        else if nbr_of_stars == 1 {
+            println!("{}       {} star {}", COLOR_GOLD, nbr_of_stars, ANSI_RESET);
+        }
+        else {
+            println!("{}      {}  stars {}", COLOR_GOLD, nbr_of_stars, ANSI_RESET);
+        }
+        println!();
+    }  
+        
+        print_ending();
     }
-    
-    println!();
-    println!("{} {} collected stars {}", COLOR_GOLD, nbr_of_stars, ANSI_RESET);
-    println!();
-    
-    print_ending();
-}
-
-
