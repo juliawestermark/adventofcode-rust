@@ -53,10 +53,10 @@ fn parse_config(args: &[String]) -> Config {
     }
     else {
         match args[2].as_str() {
-            "result" => {
+            "input" => {
                 input_filename = format!("src/inputs/input{:02}.txt", day).to_string();
             },
-            "test" => {
+            "example" => {
                 input_filename = format!("src/examples/example{:02}.txt", day).to_string();
             },
             _ => {
@@ -88,6 +88,8 @@ fn main() {
     
     // PRINTS
     startup(day);
+    println!("Run for input {}", input_filename);
+    println!();
     for part in vec {
         println!("{}", part);
     }
