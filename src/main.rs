@@ -1,9 +1,20 @@
 use std::env;
 use std::process::Command;
 
-pub const ANSI_ITALIC: &str = "\x1b[3m";
-pub const ANSI_BOLD: &str = "\x1b[1m";
-pub const ANSI_RESET: &str = "\x1b[0m";
+use chrono::{
+    NaiveDate,
+    Utc,
+    Months,
+    Datelike,
+};
+
+use aoc2022::{
+    // ANSI_ITALIC,
+    ANSI_BOLD,
+    ANSI_RESET,
+    COLOR_RED,
+    COLOR_GREEN,
+};
 
 fn startup(day: i32) {
     println!();
@@ -12,9 +23,39 @@ fn startup(day: i32) {
 }
 
 fn ending() {
+    let from_ymd_opt = NaiveDate::from_ymd_opt;
+    let now = Utc::now();
+    let today = from_ymd_opt(now.year(), now.month(), now.day()).unwrap();
+    let christmas_date = from_ymd_opt(now.year(), 12, 24).unwrap(); 
+    // let today = from_ymd_opt(2022, 12, 02).unwrap();
+
+    let diff = date_diff(today, christmas_date);
+
     println!();
     println!("{}--- 🎄🎄🎄🎄🎄🎄 ---{}", ANSI_BOLD, ANSI_RESET);
+    if diff == 0 {
+        println!("{}   IT'S CHRISTMAS   {}", COLOR_RED, ANSI_RESET);
+    }
+    else if diff == 1 {
+        println!("{}{} day to Christmas!!{}", COLOR_RED, diff, ANSI_RESET);
+    }
+    else if diff < 10 {
+        println!("{}{} days to Christmas!{}", COLOR_RED, diff, ANSI_RESET);
+    }
+    else {
+        println!("{}{} days to Christmas{}", COLOR_RED, diff, ANSI_RESET);
+    }
+    println!("{}--- 🎄🎄🎄🎄🎄🎄 ---{}", ANSI_BOLD, ANSI_RESET);
     println!();
+}
+
+fn date_diff(start_date: NaiveDate, end_date: NaiveDate) -> i64{
+    let d = (end_date - start_date).num_days();
+    if d < 0 {
+        let new_date = end_date + Months::new(12);
+        return date_diff(start_date, new_date)
+    }
+    return d
 }
 
 struct Config {

@@ -7,6 +7,13 @@ use std::{
 };
 
 
+pub const ANSI_ITALIC: &str = "\x1b[3m";
+pub const ANSI_BOLD: &str = "\x1b[1m";
+pub const ANSI_RESET: &str = "\x1b[0m";
+pub const COLOR_RED: &str = "\x1b[0;31m";
+pub const COLOR_GREEN: &str = "\x1b[0;32m";
+
+
 pub fn lines_from_file(filename: impl AsRef<Path>) -> Vec<String> {
     let file = File::open(filename).expect("no such file");
     let buf = BufReader::new(file);

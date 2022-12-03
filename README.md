@@ -20,3 +20,7 @@ to create run file from template and empty input and example files for the speci
 ## Installation
 
 Install Rust [here](https://www.rust-lang.org/).
+
+## Config
+
+If adding a new dependency run `cargo build`. Tror jag man måste?
