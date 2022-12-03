@@ -69,11 +69,17 @@ pub fn print_startup(day: i32) {
     println!();
 }
 
-pub fn print_ending() {
+pub fn today() -> NaiveDate {
     let from_ymd_opt = NaiveDate::from_ymd_opt;
     let now = Utc::now();
     let today = from_ymd_opt(now.year(), now.month(), now.day()).unwrap();
-    let christmas_date = from_ymd_opt(now.year(), 12, 24).unwrap(); 
+    return today
+}
+
+pub fn print_ending() {
+    let from_ymd_opt = NaiveDate::from_ymd_opt;
+    let today = today();
+    let christmas_date = from_ymd_opt(today.year(), 12, 24).unwrap(); 
     // let today = from_ymd_opt(2022, 12, 02).unwrap();
 
     let diff = date_diff(today, christmas_date);

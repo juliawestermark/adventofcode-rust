@@ -12,6 +12,11 @@ cargo run <day> [input|example]
 ```
 to run the file for the specified day. The last argument is optional and specifies which input file to run. `input` is default.
 
+To run **all** days type
+```
+cargo run all [input|example]
+```
+
 ## Create files
 Run
 ```
