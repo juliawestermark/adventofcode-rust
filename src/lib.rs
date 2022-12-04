@@ -78,7 +78,7 @@ We wish you a merry Christmas
 We wish you a merry Christmas and a happy new year"
     .to_string()
     }
-    else {
+    else if song_nbr == 2 {
     "Hey, chingedy ching, hee haw, hee haw
 It's Dominick, the donkey
 Chingedy ching, hee haw, hee haw
@@ -124,7 +124,17 @@ La, la, la, la, la, la, ladioda
 
 Hey Dominick, Bouna Natale
 Hee haw, hee haw, hee haw, hee haw, hee haw"
-    .to_string()
+        .to_string()
+    }
+    else if song_nbr == 3{
+        "What does Santa suffer from if he gets stuck in a chimney?
+Claus-trophobia!"
+        .to_string()
+    }
+    else {
+        "Knock, knock! Who’s there? Mary. Mary who?
+Mary Christmas!"
+        .to_string()
     }
 }
 
@@ -168,20 +178,6 @@ pub fn print_advent_of_code() {
 }
 
 pub fn get_days_in_december() -> i32 {
-    let from_ymd_opt = NaiveDate::from_ymd_opt;
-    let today = today();
-    let december_first = from_ymd_opt(2022, 11, 30).unwrap(); // for 2022
-    
-    let date_diff = (today - december_first).num_days() as i32;
-    let mut end_date = 25;
-    if date_diff < 25 && date_diff > 0 {
-        end_date = date_diff;
-    }
-    
-    end_date
-}
-
-pub fn get_days_in_december2() -> i32 {
     let from_ymd_opt = NaiveDate::from_ymd_opt;
     let today = today();
     let december_first = from_ymd_opt(2022, 11, 30).unwrap(); // for 2022

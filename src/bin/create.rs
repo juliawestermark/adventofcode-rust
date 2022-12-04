@@ -9,6 +9,8 @@ use aoc2022::{
     print_fail,
     print_startup,
     print_ending,
+    print_advent_of_code,
+    christmas_carol,
 };
 
 fn parse_args() -> i32 {
@@ -21,11 +23,13 @@ fn parse_args() -> i32 {
     let day: i32 = match args[1].parse() {
         Ok(day) => {
             if day < 1 || day > 25 {
-                panic!("argument day is not in interval");
+                -3
             }
-            day
+            else {
+                day
+            }
         },
-        Err(_)=> panic!("argument day is invalid"),
+        Err(_)=> -4,
     };
     day
 }
@@ -82,59 +86,65 @@ fn safe_create_file(path: &str) -> Result<File, std::io::Error> {
 
 fn main() {
     let day = parse_args();
-    let dday = format!("{:02}", day);
 
-    let input_path = format!("src/inputs/input{}.txt", dday);
-    let example_path = format!("src/examples/example{}.txt", dday);
-    let module_path = format!("src/bin/day{}.rs", dday);
+    if day < 0 {
+        print_advent_of_code();
+        println!("{}", christmas_carol(day.abs()));
+    }
+    else {
+        let dday = format!("{:02}", day);
+        let input_path = format!("src/inputs/input{}.txt", dday);
+        let example_path = format!("src/examples/example{}.txt", dday);
+        let module_path = format!("src/bin/day{}.rs", dday);
+        
+        print_startup(day);
 
-    print_startup(day);
-
-    let file: Result<File, io::Error> = match safe_create_file(&module_path) {
-        Ok(file) => Ok(file),
-        Err(e) => {
-            let message = format!("Failed to create module file: {}", e);
-            print_fail(message);
-            // process::exit(1);
-            Err(e)
+        let file: Result<File, io::Error> = match safe_create_file(&module_path) {
+            Ok(file) => Ok(file),
+            Err(e) => {
+                let message = format!("Failed to create module file: {}", e);
+                print_fail(message);
+                // process::exit(1);
+                Err(e)
+            }
+        };
+        
+        if file.is_ok() {
+            match file.expect("file").write_all(MODULE_TEMPLATE.as_bytes()) {
+                Ok(_) => {
+                    let message = format!("Created module file \"{}\"", &module_path);
+                    print_success(message);
+                }
+                Err(e) => {
+                    let message = format!("Failed to write module contents: {}", e);
+                    print_fail(message);
+                    // process::exit(1);
+                }
+            }
         }
-    };
-    
-    if file.is_ok() {
-        match file.expect("file").write_all(MODULE_TEMPLATE.as_bytes()) {
+
+        match safe_create_file(&input_path) {
             Ok(_) => {
-                let message = format!("Created module file \"{}\"", &module_path);
+                let message = format!("Created empty input file \"{}\"", &input_path);
                 print_success(message);
             }
             Err(e) => {
-                let message = format!("Failed to write module contents: {}", e);
+                let message = format!("Failed to create input file: {}", e);
                 print_fail(message);
                 // process::exit(1);
             }
         }
-    }
 
-    match safe_create_file(&input_path) {
-        Ok(_) => {
-            let message = format!("Created empty input file \"{}\"", &input_path);
-            print_success(message);
-        }
-        Err(e) => {
-            let message = format!("Failed to create input file: {}", e);
-            print_fail(message);
-            // process::exit(1);
-        }
-    }
-
-    match safe_create_file(&example_path) {
-        Ok(_) => {
-            let message = format!("Created empty example file \"{}\"", &example_path);
-            print_success(message);
-        }
-        Err(e) => {
-            let message = format!("Failed to create example file: {}", e);
-            print_fail(message);
-            // process::exit(1);
+        match safe_create_file(&example_path) {
+            Ok(_) => {
+                let message = format!("Created empty example file \"{}\"", &example_path);
+                print_success(message);
+            }
+            Err(e) => {
+                let message = format!("Failed to create example file: {}", e);
+                print_fail(message);
+                // process::exit(1);
+            }
         }
     }
 
