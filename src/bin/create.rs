@@ -36,25 +36,44 @@ const MODULE_TEMPLATE: &str = r###"use aoc2022::{
 };
 
 
-fn part_one() {
-    return 0
+fn print_input(input: Vec<String>) {
+    println!("Input:");
+    println!("{:?}", input);
 }
 
-fn part_two() {
-    return 0
+fn part_one(line_nbr: i32, line: String) -> String {
+    format!("Line {}: {}", line_nbr, line)
 }
 
+fn part_two(the_best: bool) -> String {
+    if the_best {
+        return "You're the best!".to_string()
+    }
+    else {
+        return "You are better than the best!".to_string()
+    }
+}
 
 fn main() {
     let filename = parse_args();
     let input = lines_from_file(filename);
-    
-    part1 = part_one();
-    part2 = part_two();
 
-    println!("Part 1: {}", part1);
-    println!("Part 2: {}", part2);
+    print_input(input.clone());
+
+    let mut part1 = Vec::<String>::new();
+    
+    let mut line_nbr = 1;
+    for line in input {
+        part1.push(part_one(line_nbr, line));
+        line_nbr += 1;
+    }
+
+    let part2 = part_two(true);
+
+    println!("Part 1: {:?}", part1); // :? is needed since part1 is a vector
+    println!("Part 2: {:?}", part2);
 }
+
 "###;
 
 fn safe_create_file(path: &str) -> Result<File, std::io::Error> {
