@@ -1,6 +1,6 @@
 use std::{
     env,
-    fs::File,
+    fs::{self, File},
     io::{prelude::*, BufReader},
     path::Path,
     process,
@@ -29,6 +29,11 @@ pub fn lines_from_file(filename: impl AsRef<Path>) -> Vec<String> {
     buf.lines()
         .map(|l| l.expect("Could not parse line"))
         .collect()
+}
+
+pub fn string_from_file(filename: impl AsRef<Path>) -> String {
+    fs::read_to_string(filename)
+        .expect("Should have been able to read the file")
 }
 
 pub fn parse_args() -> String {
@@ -71,6 +76,20 @@ pub fn print_startup(day: i32) {
     println!();
 }
 
+pub fn christmas_carol(song_nbr: i32) -> String {
+    let filename = "src/songs.txt";
+    let input = string_from_file(filename);
+    let mut song_nbr_usize: usize = song_nbr.try_into().unwrap();
+    let vec: Vec<&str> = input.split("#").map(|s| s.trim()).collect();
+    if vec.len() < 1 {
+       return "What do you get when you cross a snowman with a vampire? Frostbite.".to_string()
+    }
+    else if vec.len() < song_nbr_usize {
+        song_nbr_usize = 1;
+    }
+    vec.get(song_nbr_usize-1).expect("Could not convert song").to_string()
+}
+
 pub fn today() -> NaiveDate {
     let from_ymd_opt = NaiveDate::from_ymd_opt;
     let now = Utc::now();
@@ -104,16 +123,17 @@ pub fn print_ending() {
     println!();
 }
 
+pub fn print_advent_of_code() {
+    println!();
+    println!("{}🎄 Advent of code 🎄{}", ANSI_BOLD, ANSI_RESET);
+    println!();
+}
+
 pub fn get_days_in_december() -> i32 {
     let from_ymd_opt = NaiveDate::from_ymd_opt;
     let today = today();
     let december_first = from_ymd_opt(2022, 11, 30).unwrap(); // for 2022
     
     let date_diff = (today - december_first).num_days() as i32;
-    let mut end_date = 25;
-    if date_diff < 25 && date_diff > 0 {
-        end_date = date_diff;
-    }
-    
-    end_date
+    date_diff
 }

@@ -11,6 +11,8 @@ use aoc2022::{
     print_startup,
     print_ending,
     get_days_in_december,
+    print_advent_of_code,
+    christmas_carol,
 };
 
 
@@ -40,11 +42,13 @@ fn parse_config(args: &[String]) -> Config {
             match d.parse::<i32>() {
                 Ok(dday) => {
                     if dday < 1 || dday > 25 {
-                        panic!("argument day is not in interval");
+                        -1
                     }
-                    dday
+                    else {
+                        dday
+                    }
                 },
-                Err(_)=> panic!("argument day is invalid"),
+                Err(_)=> -2,
             }
         },
     };
@@ -88,44 +92,56 @@ fn main() {
     let day_arg = config.day;
     let path_bin = "src/bin";
 
-    
-    
-    let mut days: Vec<i32>;
-    if day_arg == 0 {
-        let end_date = get_days_in_december();
+    let mut end_date = get_days_in_december();
 
-        days = (1..end_date+1).collect();
+    if day_arg > 0 && day_arg > end_date {
+        print_advent_of_code();
+        println!("The future ain't what is used to be.");
+        println!("December {} is in the future", day_arg);  
+    }
+    else if day_arg < 0 {
+        print_advent_of_code();
+        println!("{}", christmas_carol(day_arg.abs()));
     }
     else {
-        days = Vec::new();
-        days.push(day_arg);
-    }
-    
-    for day in days {
-        let dday = format!("day{:02}", &day);
-        let input_filename = get_filename(day, input_type.clone());
+        let mut days: Vec<i32>;
+        if day_arg == 0 {
+            if end_date < 0 && end_date > 25 {
+                end_date = 25;
+            }
+            days = (1..end_date+1).collect();
+        }
+        else {
+            days = Vec::new();
+            days.push(day_arg);
+        }
         
-        print_startup(day);
-        
-        if file_exists(format!("{}/{}.rs",path_bin, dday)) {
-            if file_exists(input_filename.clone()) {
-                let cmd = Command::new("cargo")
-                .args(["run", "--bin", &dday, &input_filename])
-                .output()
-                .unwrap();
+        for day in days {
+            let dday = format!("day{:02}", &day);
+            let input_filename = get_filename(day, input_type.clone());
             
-                let output = String::from_utf8(cmd.stdout).unwrap();
-                let vec: Vec<&str> = output.trim().split("\n").collect();
+            print_startup(day);
+            
+            if file_exists(format!("{}/{}.rs",path_bin, dday)) {
+                if file_exists(input_filename.clone()) {
+                    let cmd = Command::new("cargo")
+                    .args(["run", "--bin", &dday, &input_filename])
+                    .output()
+                    .unwrap();
                 
-                println!("{}Run for input {}{}", ANSI_ITALIC, input_filename, ANSI_RESET);
-                println!();
-                
-                if vec.len() == 0 || vec[0].is_empty() {
-                    println!("No solutions");
-                }
-                else {
-                    for part in vec {
-                        println!("{}", part);
+                    let output = String::from_utf8(cmd.stdout).unwrap();
+                    let vec: Vec<&str> = output.trim().split("\n").collect();
+                    
+                    println!("{}Run for input {}{}", ANSI_ITALIC, input_filename, ANSI_RESET);
+                    println!();
+                    
+                    if vec.len() == 0 || vec[0].is_empty() {
+                        println!("No solutions");
+                    }
+                    else {
+                        for part in vec {
+                            println!("{}", part);
+                        }
                     }
                 }
             }
