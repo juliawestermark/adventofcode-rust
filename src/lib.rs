@@ -1,6 +1,6 @@
 use std::{
     env,
-    fs::File,
+    fs::{self, File},
     io::{prelude::*, BufReader},
     path::Path,
     process,
@@ -29,6 +29,11 @@ pub fn lines_from_file(filename: impl AsRef<Path>) -> Vec<String> {
     buf.lines()
         .map(|l| l.expect("Could not parse line"))
         .collect()
+}
+
+pub fn string_from_file(filename: impl AsRef<Path>) -> String {
+    fs::read_to_string(filename)
+        .expect("Should have been able to read the file")
 }
 
 pub fn parse_args() -> String {
@@ -71,71 +76,18 @@ pub fn print_startup(day: i32) {
     println!();
 }
 
-pub fn christmas_carol(song_nbr: i32) -> String{
-    if song_nbr == 1 {
-        "We wish you a merry Christmas
-We wish you a merry Christmas
-We wish you a merry Christmas and a happy new year"
-    .to_string()
+pub fn christmas_carol(song_nbr: i32) -> String {
+    let filename = "src/songs.txt";
+    let input = string_from_file(filename);
+    let mut song_nbr_usize: usize = song_nbr.try_into().unwrap();
+    let vec: Vec<&str> = input.split("#").map(|s| s.trim()).collect();
+    if vec.len() < 1 {
+       return "What do you get when you cross a snowman with a vampire? Frostbite.".to_string()
     }
-    else if song_nbr == 2 {
-    "Hey, chingedy ching, hee haw, hee haw
-It's Dominick, the donkey
-Chingedy ching, hee haw, hee haw
-The Italian Christmas donkey
-La, la, la, la, la, la, la, la, la
-La, la, la, la, la, la, ladioda
-
-Santa's got a little friend, his name is Dominick
-The cutest little donkey, you never see him kick
-When Santa visits his Paesans with Dominick he'll be
-Because the reindeer cannot climb the hills of Italy
-
-Hey, chingedy ching, hee haw, hee haw
-It's Dominick, the donkey
-Chingedy ching, hee haw, hee haw
-The Italian Christmas donkey
-La, la, la, la, la, la, la, la, la
-La, la, la, la, la, la, ladioda
-
-Jingle bells around his feet and presents on the sled
-Hey, look at the mayor's derby on top of Dominick's head
-A pair of shoes for Louie and a dress for Josephine
-The label on the inside says they're made in Brooklyn
-
-Hey, Chingedy ching, hee haw, hee haw
-It's Dominick, the donkey
-Chingedy ching, hee haw, hee haw
-The Italian Christmas donkey
-La, la, la, la, la, la, la, la, la
-La, la, la, la, la, la, ladioda
-
-Children sing and clap their hands and Dominick starts ta dance
-They talk Italian to him and he even understands
-Cummares' and Cumpare's do the dance a tarentell
-When Santa Nicola comes to town and brings il ciucciariello
-
-Hey, chingedy ching, hee haw, hee haw
-It's Dominick, the donkey
-Chingedy ching, hee haw, hee haw
-The Italian Christmas donkey
-La, la, la, la, la, la, la, la, la
-La, la, la, la, la, la, ladioda
-
-Hey Dominick, Bouna Natale
-Hee haw, hee haw, hee haw, hee haw, hee haw"
-        .to_string()
+    else if vec.len() < song_nbr_usize {
+        song_nbr_usize = 1;
     }
-    else if song_nbr == 3{
-        "What does Santa suffer from if he gets stuck in a chimney?
-Claus-trophobia!"
-        .to_string()
-    }
-    else {
-        "Knock, knock! Who’s there? Mary. Mary who?
-Mary Christmas!"
-        .to_string()
-    }
+    vec.get(song_nbr_usize-1).expect("Could not convert song").to_string()
 }
 
 pub fn today() -> NaiveDate {
