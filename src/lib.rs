@@ -71,6 +71,63 @@ pub fn print_startup(day: i32) {
     println!();
 }
 
+pub fn christmas_carol(song_nbr: i32) -> String{
+    if song_nbr == 1 {
+        "We wish you a merry Christmas
+We wish you a merry Christmas
+We wish you a merry Christmas and a happy new year"
+    .to_string()
+    }
+    else {
+    "Hey, chingedy ching, hee haw, hee haw
+It's Dominick, the donkey
+Chingedy ching, hee haw, hee haw
+The Italian Christmas donkey
+La, la, la, la, la, la, la, la, la
+La, la, la, la, la, la, ladioda
+
+Santa's got a little friend, his name is Dominick
+The cutest little donkey, you never see him kick
+When Santa visits his Paesans with Dominick he'll be
+Because the reindeer cannot climb the hills of Italy
+
+Hey, chingedy ching, hee haw, hee haw
+It's Dominick, the donkey
+Chingedy ching, hee haw, hee haw
+The Italian Christmas donkey
+La, la, la, la, la, la, la, la, la
+La, la, la, la, la, la, ladioda
+
+Jingle bells around his feet and presents on the sled
+Hey, look at the mayor's derby on top of Dominick's head
+A pair of shoes for Louie and a dress for Josephine
+The label on the inside says they're made in Brooklyn
+
+Hey, Chingedy ching, hee haw, hee haw
+It's Dominick, the donkey
+Chingedy ching, hee haw, hee haw
+The Italian Christmas donkey
+La, la, la, la, la, la, la, la, la
+La, la, la, la, la, la, ladioda
+
+Children sing and clap their hands and Dominick starts ta dance
+They talk Italian to him and he even understands
+Cummares' and Cumpare's do the dance a tarentell
+When Santa Nicola comes to town and brings il ciucciariello
+
+Hey, chingedy ching, hee haw, hee haw
+It's Dominick, the donkey
+Chingedy ching, hee haw, hee haw
+The Italian Christmas donkey
+La, la, la, la, la, la, la, la, la
+La, la, la, la, la, la, ladioda
+
+Hey Dominick, Bouna Natale
+Hee haw, hee haw, hee haw, hee haw, hee haw"
+    .to_string()
+    }
+}
+
 pub fn today() -> NaiveDate {
     let from_ymd_opt = NaiveDate::from_ymd_opt;
     let now = Utc::now();
@@ -104,6 +161,12 @@ pub fn print_ending() {
     println!();
 }
 
+pub fn print_advent_of_code() {
+    println!();
+    println!("{}🎄 Advent of code 🎄{}", ANSI_BOLD, ANSI_RESET);
+    println!();
+}
+
 pub fn get_days_in_december() -> i32 {
     let from_ymd_opt = NaiveDate::from_ymd_opt;
     let today = today();
@@ -116,4 +179,13 @@ pub fn get_days_in_december() -> i32 {
     }
     
     end_date
+}
+
+pub fn get_days_in_december2() -> i32 {
+    let from_ymd_opt = NaiveDate::from_ymd_opt;
+    let today = today();
+    let december_first = from_ymd_opt(2022, 11, 30).unwrap(); // for 2022
+    
+    let date_diff = (today - december_first).num_days() as i32;
+    date_diff
 }
