@@ -96,8 +96,7 @@ fn main() {
 
     if day_arg > 0 && day_arg > end_date {
         print_advent_of_code();
-        println!("The future ain't what is used to be.");
-        println!("December {} is in the future", day_arg);  
+        println!("{}", christmas_carol(7));
     }
     else if day_arg < 0 {
         print_advent_of_code();

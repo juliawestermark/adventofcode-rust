@@ -80,7 +80,7 @@ pub fn christmas_carol(song_nbr: i32) -> String {
     let filename = "src/songs.txt";
     let input = string_from_file(filename);
     let mut song_nbr_usize: usize = song_nbr.try_into().unwrap();
-    let vec: Vec<&str> = input.split("#").map(|s| s.trim()).collect();
+    let vec: Vec<&str> = input.split("#").collect();
     if vec.len() < 1 {
        return "What do you get when you cross a snowman with a vampire? Frostbite.".to_string()
     }
